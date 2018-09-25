@@ -1,0 +1,24 @@
+* Install micropython tools
+** esptool and adafruit-ampy
+   pip3 install esptool adafruit-ampy
+
+* Erease Flash if you flash firmware firs time
+  esptool.py --chip esp32 -p /dev/ttyUSB0 erase_flash
+  
+
+
+* Flash firmware 
+  esptool.py --chip esp32 -p /dev/ttyUSB0 write_flash -z 0x1000 esp32-binary.bin
+
+* Show files in flash ROM 
+  ampy -p /dev/ttyUSB0 ls
+  
+* Download module
+  ampy -p /dev/ttyUSB0 get boot.py
+
+* Upload modeule
+  ampy -p /dev/ttyUSB0 put your_file.py /path_on_device.py
+  
+* Upload as main.py for startup run
+  
+
