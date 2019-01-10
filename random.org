@@ -1,0 +1,5 @@
+* Using modules and tech. stuff
+
+*** GPS modules NMEA string
+ http://www.toptechboy.com/arduino/lesson-24-understanding-gps-nmea-sentences/
+

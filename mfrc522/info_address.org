@@ -1,0 +1,1 @@
+https://github.com/wendlers/micropython-mfrc522

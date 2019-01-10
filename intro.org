@@ -1,24 +1,60 @@
+# Setup and config
 * Install micropython tools
 ** esptool and adafruit-ampy
    pip3 install esptool adafruit-ampy
 
 * Erease Flash if you flash firmware firs time
-  esptool.py --chip esp32 -p /dev/ttyUSB0 erase_flash
-  
-
+** esp32 
+   esptool.py --chip esp32 --port /dev/ttyUSB0 erase_flash
+** esp12/esp8266
+   esptool.py --chip esp8266 --port /dev/ttyUSB0 erase_flash
 
 * Flash firmware 
-  esptool.py --chip esp32 -p /dev/ttyUSB0 write_flash -z 0x1000 esp32-binary.bin
+** For esp32 
+   esptool.py --chip esp32 -p /dev/ttyUSB0 write_flash -z 0x1000 esp32-binary.bin
 
+** For esp12N/esp8266
+   esptool.py --port /dev/ttyUSB0 --baud 460800 write_flash --flash_size=detect 0 esp8266-20170108-v1.8.7.bin
+*** Some cases you need to add "-fm dio 0" arguments*** 
+    esptool.py --port /dev/ttyUSB0 --baud 460800 write_flash --flash_size=detect -fm dio 0 esp8266-20170108-v1.8.7.bin
+
+   
 * Show files in flash ROM 
   ampy -p /dev/ttyUSB0 ls
   
+* Live command prompt
+  screen /dev/ttyUSB0 115200
+
 * Download module
   ampy -p /dev/ttyUSB0 get boot.py
-
+  
 * Upload modeule
   ampy -p /dev/ttyUSB0 put your_file.py /path_on_device.py
   
 * Upload as main.py for startup run
+  ampy -p /dev/ttyUSB0 put your_file.py /main.py
   
+# Basic egsamples
+  
+* Oled display on wemos-esp32-oled
+
+** Download adafruits ssd1306 python library 
+wget https://raw.githubusercontent.com/adafruit/micropython-adafruit-ssd1306/master/ssd1306.py
+
+** Upload to esp 
+   ampy -p /dev/ttyUSB0 --baud 115200 put ssd1306.py
+
+** Basic oled code
+   import machine, ssd1306
+   
+   i2c = machine.I2C(scl=machine.Pin(4), sda=machine.Pin(5))
+   
+   oled = ssd1306.SSD1306_I2C(128,64, i2c)
+   oled.fill(0)
+   oled.text('MicroPython', 10, 10)
+   oled.text('on ESP32', 10, 30)
+   oled.show()
+   
+** GFX librarry for drawing
+   https://github.com/adafruit/micropython-adafruit-gfx
 
